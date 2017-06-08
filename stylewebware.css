@@ -1,0 +1,149 @@
+@charset "utf-8";
+/* CSS Document */
+*{
+	margin:0;
+	padding:0;
+}
+html, body{
+	font:12px trebuchet MS;
+	line-height:20px;
+	color:#404000;
+}
+#container{
+	margin:0 auto;
+	width:750px;
+	padding:50px 0 50px 50px;
+	background-color:#cc0;
+	height:100%;
+}
+h1{
+	font-size:24px;
+	line-height:24px;
+}
+h2, h3{
+	margin-top:18px;
+}
+p{
+	font-size:14px;
+}
+.key{
+	text-transform:uppercase;
+	font-size:12px;
+}
+a{
+	outline:none;
+	color:#404000;
+}
+.intro{
+	font-weight:bold;
+}
+ul{
+	list-style-position:inside;
+}
+form{
+	display:block;
+	width:700px;
+}
+input, label{
+	color:#404000;
+	font:12px bold 'trebuchet MS';
+}
+.cellsizer, .trails, #liferules input{
+	vertical-align:-2px;
+	margin:0 3px 0 10px;
+}
+.fillratio{
+	width:30px;
+}
+canvas {
+	border:0px solid black;
+	background-color:white;
+	margin-bottom:18px;
+	color:#404000;
+	font:8px bold 'trebuchet MS';	
+}
+#thetoroid{
+	margin-top:18px;
+}
+#liferules{
+	display:none;
+}
+#data{
+	margin:12px 0 18px 0;
+	border:0px solid black;
+	width:700px;
+}
+#data p, #data a{
+	font-size:12px;
+}
+#story{
+	width:700px;
+}
+#controls{
+	width:700px;
+	left:50px;
+	margin-bottom:12px;
+}
+#controls a{
+	display:block;
+	float:left;
+	width:24px;
+	height:21px;
+	background-image:url(images/buttons.gif);
+	background-repeat:no-repeat;
+}
+	#controls #startbutton{
+		width:38px;
+		background-position:0 -99px;
+	}
+	#controls #startbutton:hover{
+		background-position:-50px -99px;
+	}
+	#controls #prevbutton{
+		background-position:0 -74px;
+	}
+	#controls #prevbutton:hover{
+		background-position:-50px -74px;
+	}
+	#controls #stopbutton{
+		background-position:0 0px;
+	}
+	#controls #stopbutton:hover{
+		background-position:-50px 0px;
+	}
+	#controls #stepbutton{
+		background-position:0 -49px;
+	}
+	#controls #stepbutton:hover{
+		background-position:-50px -49px;
+	}
+	#controls #clearbutton{
+		background-position:0 -25px;
+	}
+	#controls #clearbutton:hover{
+		background-position:-50px -25px;
+	}
+	#controls #randombutton{
+		background-position:0 -125px;
+	}
+	#controls #randombutton:hover{
+		background-position:-50px -125px;
+	}
+	#controls a.toggler, #data a.toggler{
+		width:auto;
+		float:right;
+		background-image:none;
+		color:#404000;
+		clear:both;
+	}
+	a.toggler:hover{
+		color:white;
+	}
+.r{float:right;}
+.h{display:none;}
+#ads{
+	width:121px;
+	height:600px;
+	float:right;
+	margin-left:10px;
+}
