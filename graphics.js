@@ -16,6 +16,7 @@ $(function () {
         neighbours, // Array with neighbours count
         steps = 0, // Number of iterations / steps done
         interval = 0, // Milliseconds between iterations
+        keepHistory = false,
         history, // Array of arrays with livecells
         running = false,
         liferules = [[], []];
@@ -91,7 +92,7 @@ $(function () {
         for (count = 0; count < startnumberlivecells; count++) {
             livecells[count] = new Celxy(Math.floor(Math.random() * spacewidth), Math.floor(Math.random() * spaceheight));
         }
-        history.push(livecells.slice());
+        if (keepHistory) history.push(livecells);
     }
 
     // Draw grid for easier composing
@@ -156,7 +157,7 @@ $(function () {
         mouseX = Math.floor((event.offsetX ? (event.offsetX) : event.pageX - this.offsetLeft) / cellsize);
         mouseY = Math.floor((event.offsetY ? (event.offsetY) : event.pageY - this.offsetTop) / cellsize);
         livecells[livecells.length] = new Celxy(mouseX, mouseY);
-        history.push(livecells.slice());
+        if (keepHistory) history.push(livecells);
         drawcells();
         updatedata();
     });
@@ -199,79 +200,82 @@ $(function () {
 
     // Evaluate neighbourscounts for new livecells
     function evalneighbours() {
-        var count, thisx, thisy, count2 = 0;
+        var count, thisx, thisy = 0;
 
         function livecell() {
             thisy = Math.floor(count / spacewidth);
             thisx = count - (thisy * spacewidth);
-            livecells[count2] = new Celxy(thisx, thisy);
-            count2++;
+            livecells.push(new Celxy(thisx, thisy));
         }
 
         livecells = [];
         for (count = 0; count < numbercells; count++) {
             switch (neighbours[count]) {
                 case 0:
-                    if (liferules[0][0] === true) { livecell(); }
+                    if (liferules[0][0]) { livecell(); }
                     break;
                 case 1:
-                    if (liferules[0][1] === true) { livecell(); }
+                    if (liferules[0][1]) { livecell(); }
                     break;
                 case 2:
-                    if (liferules[0][2] === true) { livecell(); }
+                    if (liferules[0][2]) { livecell(); }
                     break;
                 case 3:
-                    if (liferules[0][3] === true) { livecell(); }
+                    if (liferules[0][3]) { livecell(); }
                     break;
                 case 4:
-                    if (liferules[0][4] === true) { livecell(); }
+                    if (liferules[0][4]) { livecell(); }
                     break;
                 case 5:
-                    if (liferules[0][5] === true) { livecell(); }
+                    if (liferules[0][5]) { livecell(); }
                     break;
                 case 6:
-                    if (liferules[0][6] === true) { livecell(); }
+                    if (liferules[0][6]) { livecell(); }
                     break;
                 case 7:
-                    if (liferules[0][7] === true) { livecell(); }
+                    if (liferules[0][7]) { livecell(); }
                     break;
                 case 8:
-                    if (liferules[0][8] === true) { livecell(); }
+                    if (liferules[0][8]) { livecell(); }
                     break;
 
                 case 9:
                     break;
 
                 case 10:
-                    if (liferules[1][0] === true) { livecell(); }
+                    if (liferules[1][0]) { livecell(); }
                     break;
                 case 11:
-                    if (liferules[1][1] === true) { livecell(); }
+                    if (liferules[1][1]) { livecell(); }
                     break;
                 case 12:
-                    if (liferules[1][2] === true) { livecell(); }
+                    if (liferules[1][2]) { livecell(); }
                     break;
                 case 13:
-                    if (liferules[1][3] === true) { livecell(); }
+                    if (liferules[1][3]) { livecell(); }
                     break;
                 case 14:
-                    if (liferules[1][4] === true) { livecell(); }
+                    if (liferules[1][4]) { livecell(); }
                     break;
                 case 15:
-                    if (liferules[1][5] === true) { livecell(); }
+                    if (liferules[1][5]) { livecell(); }
                     break;
                 case 16:
-                    if (liferules[1][6] === true) { livecell(); }
+                    if (liferules[1][6]) { livecell(); }
                     break;
                 case 17:
-                    if (liferules[1][7] === true) { livecell(); }
+                    if (liferules[1][7]) { livecell(); }
                     break;
                 case 18:
-                    if (liferules[1][8] === true) { livecell(); }
+                    if (liferules[1][8]) { livecell(); }
                     break;
             }
         }
-        history.push(livecells.slice());
+        if (keepHistory) history.push(livecells);
+        if (history.length > 1000) {
+            console.log('livecells :' + livecells.length);
+            history = history.slice(-900);
+        }
     }
 
     // Animation function
@@ -382,7 +386,7 @@ $(function () {
 
     // Back one life step
     function back1step() {
-        if (history.length > 0) {
+        if (keepHistory && (history.length > 0)) {
             $('.trails').attr('checked', false);
             steps -= 1;
             fadeall();
@@ -401,12 +405,12 @@ $(function () {
 
     // To first step
     function tofirststep() {
-        if (history.length > 0) {
+        if (keepHistory && (history.length > 0)) {
             $('.trails').attr('checked', false);
             steps = 0;
             fadeall();
             livecells = history[steps].slice();
-            history = history.slice(0, steps);
+            history = [history.slice(0, steps + 1)];
             drawcells();
             updatedata();
         }
@@ -422,6 +426,12 @@ $(function () {
         } else {
             $('.trails').attr('checked', true);
         }
+    });
+
+    // Toggle history on or off
+    $('.history').on('click', function () {
+        keepHistory = !keepHistory;
+        $('#prevbutton, #stepbutton').toggleClass('hidden');
     });
 
     // Toggle graph on or off
