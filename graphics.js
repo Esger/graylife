@@ -386,12 +386,14 @@ $(function () {
 
     // Back one life step
     function back1step() {
+        var generation;
         if (keepHistory && (history.length > 0)) {
             $('.trails').attr('checked', false);
+            generation = history.length - 2;
             steps -= 1;
             fadeall();
-            livecells = history[steps].slice();
-            history = history.slice(0, steps);
+            livecells = history[generation].slice();
+            history = history.slice(0, generation);
             drawcells();
             updatedata();
         }
@@ -405,12 +407,14 @@ $(function () {
 
     // To first step
     function tofirststep() {
+        var generation;
         if (keepHistory && (history.length > 0)) {
             $('.trails').attr('checked', false);
-            steps = 0;
+            generation = 0;
+            // steps = 0;
             fadeall();
-            livecells = history[steps].slice();
-            history = [history.slice(0, steps + 1)];
+            livecells = history[generation].slice();
+            history = [history.slice(0, generation + 1)];
             drawcells();
             updatedata();
         }
