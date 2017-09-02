@@ -2,6 +2,9 @@
 $(function () {
     var canvas = document.getElementById('thetoroid'), // The canvas where life is drawn
         graphcanvas = document.getElementById('thegraph'), // The canvas where the graph is drawn
+        $teller = $('#teller'),
+        $cellsAlive = $('#cellsalive'),
+        $speed = $('#speed'),
         cellsize = parseInt($('input[name=cellsizer]:checked').val(), 10), // Width and heigth of a cell in pixels
         gridsize = function () { return parseInt($('input.grid').val(), 10); },
         spacewidth = (canvas.width / cellsize),
@@ -15,11 +18,15 @@ $(function () {
         cellsalive, // Number of cells alive
         neighbours, // Array with neighbours count
         steps = 0, // Number of iterations / steps done
+        prevSteps = 0,
         interval = 0, // Milliseconds between iterations
         keepHistory = false,
         history, // Array of arrays with livecells
         running = false,
-        liferules = [[], []];
+        liferules = [],
+        gogogo = null,
+        speedHandle = null,
+        speed = 0;
 
     // Set some variables
     function setspace() {
@@ -41,28 +48,23 @@ $(function () {
 
     function initliferules() {
         var count;
-        for (count = 0; count < 9; count++) {
-            liferules[0][count] = false;
-            liferules[1][count] = false;
+        var $checkbox;
+        for (count = 0; count < 10; count++) {
+            $checkbox = $('#newlife' + count);
+            if ($checkbox.length) {
+                liferules[count] = $checkbox.is(":checked");
+            } else {
+                liferules[count] = false;
+            }
         }
-        if ($('#newlife0').is(":checked")) { liferules[0][0] = true; }
-        if ($('#newlife1').is(":checked")) { liferules[0][1] = true; }
-        if ($('#newlife2').is(":checked")) { liferules[0][2] = true; }
-        if ($('#newlife3').is(":checked")) { liferules[0][3] = true; }
-        if ($('#newlife4').is(":checked")) { liferules[0][4] = true; }
-        if ($('#newlife5').is(":checked")) { liferules[0][5] = true; }
-        if ($('#newlife6').is(":checked")) { liferules[0][6] = true; }
-        if ($('#newlife7').is(":checked")) { liferules[0][7] = true; }
-        if ($('#newlife8').is(":checked")) { liferules[0][8] = true; }
-        if ($('#staylife0').is(":checked")) { liferules[1][0] = true; }
-        if ($('#staylife1').is(":checked")) { liferules[1][1] = true; }
-        if ($('#staylife2').is(":checked")) { liferules[1][2] = true; }
-        if ($('#staylife3').is(":checked")) { liferules[1][3] = true; }
-        if ($('#staylife4').is(":checked")) { liferules[1][4] = true; }
-        if ($('#staylife5').is(":checked")) { liferules[1][5] = true; }
-        if ($('#staylife6').is(":checked")) { liferules[1][6] = true; }
-        if ($('#staylife7').is(":checked")) { liferules[1][7] = true; }
-        if ($('#staylife8').is(":checked")) { liferules[1][8] = true; }
+        for (count = 10; count < 19; count++) {
+            $checkbox = $('#staylife' + (count - 10));
+            if ($checkbox.length) {
+                liferules[count] = $checkbox.is(":checked");
+            } else {
+                liferules[count] = false;
+            }
+        }
     }
 
     // Erase the canvas
@@ -169,10 +171,17 @@ $(function () {
         ctx.fillRect(steps % graphcanvas.width, graphcanvas.height - cellsalive * yscale, 1, 1);
     }
 
+    // Calculate generations per second
+    function calcSpeed() {
+        speed = steps - prevSteps;
+        prevSteps = steps;
+    }
+
     // Update the counter
     function updatedata() {
-        $('#teller').text(steps);
-        $('#cellsalive').text(cellsalive);
+        $teller.text(steps);
+        $cellsAlive.text(cellsalive);
+        $speed.text(speed);
     }
 
     // Set all neighbours to zero
@@ -200,7 +209,7 @@ $(function () {
 
     // Evaluate neighbourscounts for new livecells
     function evalneighbours() {
-        var count, thisx, thisy = 0;
+        var count, thisx, thisy;
 
         function livecell() {
             thisy = Math.floor(count / spacewidth);
@@ -210,70 +219,13 @@ $(function () {
 
         livecells = [];
         for (count = 0; count < numbercells; count++) {
-            switch (neighbours[count]) {
-                case 0:
-                    if (liferules[0][0]) { livecell(); }
-                    break;
-                case 1:
-                    if (liferules[0][1]) { livecell(); }
-                    break;
-                case 2:
-                    if (liferules[0][2]) { livecell(); }
-                    break;
-                case 3:
-                    if (liferules[0][3]) { livecell(); }
-                    break;
-                case 4:
-                    if (liferules[0][4]) { livecell(); }
-                    break;
-                case 5:
-                    if (liferules[0][5]) { livecell(); }
-                    break;
-                case 6:
-                    if (liferules[0][6]) { livecell(); }
-                    break;
-                case 7:
-                    if (liferules[0][7]) { livecell(); }
-                    break;
-                case 8:
-                    if (liferules[0][8]) { livecell(); }
-                    break;
-
-                case 9:
-                    break;
-
-                case 10:
-                    if (liferules[1][0]) { livecell(); }
-                    break;
-                case 11:
-                    if (liferules[1][1]) { livecell(); }
-                    break;
-                case 12:
-                    if (liferules[1][2]) { livecell(); }
-                    break;
-                case 13:
-                    if (liferules[1][3]) { livecell(); }
-                    break;
-                case 14:
-                    if (liferules[1][4]) { livecell(); }
-                    break;
-                case 15:
-                    if (liferules[1][5]) { livecell(); }
-                    break;
-                case 16:
-                    if (liferules[1][6]) { livecell(); }
-                    break;
-                case 17:
-                    if (liferules[1][7]) { livecell(); }
-                    break;
-                case 18:
-                    if (liferules[1][8]) { livecell(); }
-                    break;
+            if (liferules[neighbours[count]]) {
+                livecell();
             }
         }
         if (keepHistory) history.push(livecells);
         if (history.length > 1000) {
-            console.log('livecells :' + livecells.length);
+            // console.log('livecells :' + livecells.length);
             history = history.slice(-900);
         }
     }
@@ -324,10 +276,22 @@ $(function () {
         steplife();
     });
 
+    function setIntervals() {
+        gogogo = setInterval(animateShape, interval);
+        speedHandle = setInterval(calcSpeed, 1000);
+    }
+
+    function clearIntervals() {
+        clearInterval(gogogo);
+        clearInterval(speedHandle);
+    }
+
     // Start life animation
     function startlife() {
         $('.trails').attr('checked', true);
-        if (running === false) { gogogo = setInterval(animateShape, interval); }
+        if (running === false) {
+            setIntervals();
+        }
         running = true;
     }
     $('#startbutton').click(function () {
@@ -339,7 +303,7 @@ $(function () {
 
     // Show start button again after user clicked stopbutton
     function stoplife() {
-        clearInterval(gogogo);
+        clearIntervals();
         running = false;
     }
     $('#stopbutton').click(function () {
@@ -349,14 +313,19 @@ $(function () {
         stoplife();
     });
 
-    // Restart everything when user click restart button
+    // Restart everything when user clicks restart button
     function restartlife() {
-        if (running === true) { clearInterval(gogogo); }
+        if (running === true) {
+            clearIntervals();
+        }
         running = false;
         steps = 0;
+        prevSteps = 0;
         firststep();
         $('.trails').attr('checked', true);
-        if (running === false) { gogogo = setInterval(animateShape, interval); }
+        if (running === false) {
+            setIntervals();
+        }
         running = true;
     }
     $('#randombutton').click(function () {
@@ -368,7 +337,9 @@ $(function () {
 
     // Clear the canvas (in order to draw manually on it)
     function clearlife() {
-        if (running === true) { clearInterval(gogogo); }
+        if (running === true) {
+            clearIntervals();
+        }
         running = false;
         steps = 0;
         setspace();
@@ -458,7 +429,9 @@ $(function () {
     });
 
     firststep();
-    if (running === false) { gogogo = setInterval(animateShape, interval); }
+    if (running === false) {
+        setIntervals();
+    }
     running = true;
 
 });	
