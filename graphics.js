@@ -320,6 +320,7 @@ $(function () {
         }
         running = false;
         steps = 0;
+        prevSteps = 0;
         firststep();
         $('.trails').attr('checked', true);
         if (running === false) {
