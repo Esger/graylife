@@ -1,6 +1,6 @@
 # Conway's game of life lab - offers options to play with the rules and record history
 ## How to use this lab
-When loaded, it starts running by itself. It runs fastest in Google’s Chrome browser. The graph shows the amount of 'live' cells in time.
+When loaded, it starts running by itself. The graph shows the amount of 'live' cells in time.
 ## Experiment
 One can experiment with the (initial random) fill ratio, follow the population in the graph, step back through the history of interesting figures you might see.
 Change the cell size with the radio buttons labeled ‘1’, ‘2’, ‘4’ and ‘8’ to zoom in or out. When zooming in, the area will be cropped though.
