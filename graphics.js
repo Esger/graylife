@@ -43,27 +43,41 @@ $(function () {
 
     function initliferules() {
         var count;
-        for (count = 0; count < 19; count++) {
-            liferules[count] = false;
+        var $checkbox;
+        for (count = 0; count < 10; count++) {
+            $checkbox = $('#newlife' + count);
+            if ($checkbox.length) {
+                liferules[count] = $checkbox.is(":checked");
+            } else {
+                liferules[count] = false;
+            }
         }
-        if ($('#newlife0').is(":checked")) { liferules[0] = true; }
-        if ($('#newlife1').is(":checked")) { liferules[1] = true; }
-        if ($('#newlife2').is(":checked")) { liferules[2] = true; }
-        if ($('#newlife3').is(":checked")) { liferules[3] = true; }
-        if ($('#newlife4').is(":checked")) { liferules[4] = true; }
-        if ($('#newlife5').is(":checked")) { liferules[5] = true; }
-        if ($('#newlife6').is(":checked")) { liferules[6] = true; }
-        if ($('#newlife7').is(":checked")) { liferules[7] = true; }
-        if ($('#newlife8').is(":checked")) { liferules[8] = true; }
-        if ($('#staylife0').is(":checked")) { liferules[10] = true; }
-        if ($('#staylife1').is(":checked")) { liferules[11] = true; }
-        if ($('#staylife2').is(":checked")) { liferules[12] = true; }
-        if ($('#staylife3').is(":checked")) { liferules[13] = true; }
-        if ($('#staylife4').is(":checked")) { liferules[14] = true; }
-        if ($('#staylife5').is(":checked")) { liferules[15] = true; }
-        if ($('#staylife6').is(":checked")) { liferules[16] = true; }
-        if ($('#staylife7').is(":checked")) { liferules[17] = true; }
-        if ($('#staylife8').is(":checked")) { liferules[18] = true; }
+        for (count = 10; count < 19; count++) {
+            $checkbox = $('#staylife' + (count - 10));
+            if ($checkbox.length) {
+                liferules[count] = $checkbox.is(":checked");
+            } else {
+                liferules[count] = false;
+            }
+        }
+        // if ($('#newlife0').is(":checked")) { liferules[0] = true; }
+        // if ($('#newlife1').is(":checked")) { liferules[1] = true; }
+        // if ($('#newlife2').is(":checked")) { liferules[2] = true; }
+        // if ($('#newlife3').is(":checked")) { liferules[3] = true; }
+        // if ($('#newlife4').is(":checked")) { liferules[4] = true; }
+        // if ($('#newlife5').is(":checked")) { liferules[5] = true; }
+        // if ($('#newlife6').is(":checked")) { liferules[6] = true; }
+        // if ($('#newlife7').is(":checked")) { liferules[7] = true; }
+        // if ($('#newlife8').is(":checked")) { liferules[8] = true; }
+        // if ($('#staylife0').is(":checked")) { liferules[10] = true; }
+        // if ($('#staylife1').is(":checked")) { liferules[11] = true; }
+        // if ($('#staylife2').is(":checked")) { liferules[12] = true; }
+        // if ($('#staylife3').is(":checked")) { liferules[13] = true; }
+        // if ($('#staylife4').is(":checked")) { liferules[14] = true; }
+        // if ($('#staylife5').is(":checked")) { liferules[15] = true; }
+        // if ($('#staylife6').is(":checked")) { liferules[16] = true; }
+        // if ($('#staylife7').is(":checked")) { liferules[17] = true; }
+        // if ($('#staylife8').is(":checked")) { liferules[18] = true; }
     }
 
     // Erase the canvas
