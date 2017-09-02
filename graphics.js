@@ -41,7 +41,7 @@ $(function () {
 
     function initliferules() {
         var count;
-        for (count = 0; count < 9; count++) {
+        for (count = 0; count < 10; count++) {
             liferules[0][count] = false;
             liferules[1][count] = false;
         }
@@ -200,7 +200,7 @@ $(function () {
 
     // Evaluate neighbourscounts for new livecells
     function evalneighbours() {
-        var count, thisx, thisy = 0;
+        var count, thisx, thisy, neighboursCount;
 
         function livecell() {
             thisy = Math.floor(count / spacewidth);
@@ -210,66 +210,77 @@ $(function () {
 
         livecells = [];
         for (count = 0; count < numbercells; count++) {
-            switch (neighbours[count]) {
-                case 0:
-                    if (liferules[0][0]) { livecell(); }
-                    break;
-                case 1:
-                    if (liferules[0][1]) { livecell(); }
-                    break;
-                case 2:
-                    if (liferules[0][2]) { livecell(); }
-                    break;
-                case 3:
-                    if (liferules[0][3]) { livecell(); }
-                    break;
-                case 4:
-                    if (liferules[0][4]) { livecell(); }
-                    break;
-                case 5:
-                    if (liferules[0][5]) { livecell(); }
-                    break;
-                case 6:
-                    if (liferules[0][6]) { livecell(); }
-                    break;
-                case 7:
-                    if (liferules[0][7]) { livecell(); }
-                    break;
-                case 8:
-                    if (liferules[0][8]) { livecell(); }
-                    break;
-
-                case 9:
-                    break;
-
-                case 10:
-                    if (liferules[1][0]) { livecell(); }
-                    break;
-                case 11:
-                    if (liferules[1][1]) { livecell(); }
-                    break;
-                case 12:
-                    if (liferules[1][2]) { livecell(); }
-                    break;
-                case 13:
-                    if (liferules[1][3]) { livecell(); }
-                    break;
-                case 14:
-                    if (liferules[1][4]) { livecell(); }
-                    break;
-                case 15:
-                    if (liferules[1][5]) { livecell(); }
-                    break;
-                case 16:
-                    if (liferules[1][6]) { livecell(); }
-                    break;
-                case 17:
-                    if (liferules[1][7]) { livecell(); }
-                    break;
-                case 18:
-                    if (liferules[1][8]) { livecell(); }
-                    break;
+            neighboursCount = neighbours[count];
+            if (neighboursCount > 9) {
+                if (liferules[1][neighboursCount - 10]) {
+                    livecell();
+                }
+            } else {
+                if (liferules[0][neighboursCount]) {
+                    livecell();
+                }
             }
+            // switch (neighbours[count]) {
+            //     case 0:
+            //         if (liferules[0][0]) { livecell(); }
+            //         break;
+            //     case 1:
+            //         if (liferules[0][1]) { livecell(); }
+            //         break;
+            //     case 2:
+            //         if (liferules[0][2]) { livecell(); }
+            //         break;
+            //     case 3:
+            //         if (liferules[0][3]) { livecell(); }
+            //         break;
+            //     case 4:
+            //         if (liferules[0][4]) { livecell(); }
+            //         break;
+            //     case 5:
+            //         if (liferules[0][5]) { livecell(); }
+            //         break;
+            //     case 6:
+            //         if (liferules[0][6]) { livecell(); }
+            //         break;
+            //     case 7:
+            //         if (liferules[0][7]) { livecell(); }
+            //         break;
+            //     case 8:
+            //         if (liferules[0][8]) { livecell(); }
+            //         break;
+
+            //     case 9:
+            //         break;
+
+            //     case 10:
+            //         if (liferules[1][0]) { livecell(); }
+            //         break;
+            //     case 11:
+            //         if (liferules[1][1]) { livecell(); }
+            //         break;
+            //     case 12:
+            //         if (liferules[1][2]) { livecell(); }
+            //         break;
+            //     case 13:
+            //         if (liferules[1][3]) { livecell(); }
+            //         break;
+            //     case 14:
+            //         if (liferules[1][4]) { livecell(); }
+            //         break;
+            //     case 15:
+            //         if (liferules[1][5]) { livecell(); }
+            //         break;
+            //     case 16:
+            //         if (liferules[1][6]) { livecell(); }
+            //         break;
+            //     case 17:
+            //         if (liferules[1][7]) { livecell(); }
+            //         break;
+            //     case 18:
+            //         if (liferules[1][8]) { livecell(); }
+            //         break;
+            // }
+
         }
         if (keepHistory) history.push(livecells);
         if (history.length > 1000) {
