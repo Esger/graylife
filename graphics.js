@@ -2,6 +2,8 @@
 $(function () {
     var canvas = document.getElementById('thetoroid'), // The canvas where life is drawn
         graphcanvas = document.getElementById('thegraph'), // The canvas where the graph is drawn
+        $teller = $('#teller'),
+        $cellsAlive = $('#cellsalive'),
         cellsize = parseInt($('input[name=cellsizer]:checked').val(), 10), // Width and heigth of a cell in pixels
         gridsize = function () { return parseInt($('input.grid').val(), 10); },
         spacewidth = (canvas.width / cellsize),
@@ -19,7 +21,7 @@ $(function () {
         keepHistory = false,
         history, // Array of arrays with livecells
         running = false,
-        liferules = [[], []];
+        liferules = [];
 
     // Set some variables
     function setspace() {
@@ -41,28 +43,27 @@ $(function () {
 
     function initliferules() {
         var count;
-        for (count = 0; count < 10; count++) {
-            liferules[0][count] = false;
-            liferules[1][count] = false;
+        for (count = 0; count < 19; count++) {
+            liferules[count] = false;
         }
-        if ($('#newlife0').is(":checked")) { liferules[0][0] = true; }
-        if ($('#newlife1').is(":checked")) { liferules[0][1] = true; }
-        if ($('#newlife2').is(":checked")) { liferules[0][2] = true; }
-        if ($('#newlife3').is(":checked")) { liferules[0][3] = true; }
-        if ($('#newlife4').is(":checked")) { liferules[0][4] = true; }
-        if ($('#newlife5').is(":checked")) { liferules[0][5] = true; }
-        if ($('#newlife6').is(":checked")) { liferules[0][6] = true; }
-        if ($('#newlife7').is(":checked")) { liferules[0][7] = true; }
-        if ($('#newlife8').is(":checked")) { liferules[0][8] = true; }
-        if ($('#staylife0').is(":checked")) { liferules[1][0] = true; }
-        if ($('#staylife1').is(":checked")) { liferules[1][1] = true; }
-        if ($('#staylife2').is(":checked")) { liferules[1][2] = true; }
-        if ($('#staylife3').is(":checked")) { liferules[1][3] = true; }
-        if ($('#staylife4').is(":checked")) { liferules[1][4] = true; }
-        if ($('#staylife5').is(":checked")) { liferules[1][5] = true; }
-        if ($('#staylife6').is(":checked")) { liferules[1][6] = true; }
-        if ($('#staylife7').is(":checked")) { liferules[1][7] = true; }
-        if ($('#staylife8').is(":checked")) { liferules[1][8] = true; }
+        if ($('#newlife0').is(":checked")) { liferules[0] = true; }
+        if ($('#newlife1').is(":checked")) { liferules[1] = true; }
+        if ($('#newlife2').is(":checked")) { liferules[2] = true; }
+        if ($('#newlife3').is(":checked")) { liferules[3] = true; }
+        if ($('#newlife4').is(":checked")) { liferules[4] = true; }
+        if ($('#newlife5').is(":checked")) { liferules[5] = true; }
+        if ($('#newlife6').is(":checked")) { liferules[6] = true; }
+        if ($('#newlife7').is(":checked")) { liferules[7] = true; }
+        if ($('#newlife8').is(":checked")) { liferules[8] = true; }
+        if ($('#staylife0').is(":checked")) { liferules[10] = true; }
+        if ($('#staylife1').is(":checked")) { liferules[11] = true; }
+        if ($('#staylife2').is(":checked")) { liferules[12] = true; }
+        if ($('#staylife3').is(":checked")) { liferules[13] = true; }
+        if ($('#staylife4').is(":checked")) { liferules[14] = true; }
+        if ($('#staylife5').is(":checked")) { liferules[15] = true; }
+        if ($('#staylife6').is(":checked")) { liferules[16] = true; }
+        if ($('#staylife7').is(":checked")) { liferules[17] = true; }
+        if ($('#staylife8').is(":checked")) { liferules[18] = true; }
     }
 
     // Erase the canvas
@@ -171,8 +172,8 @@ $(function () {
 
     // Update the counter
     function updatedata() {
-        $('#teller').text(steps);
-        $('#cellsalive').text(cellsalive);
+        $teller.text(steps);
+        $cellsAlive.text(cellsalive);
     }
 
     // Set all neighbours to zero
@@ -200,7 +201,7 @@ $(function () {
 
     // Evaluate neighbourscounts for new livecells
     function evalneighbours() {
-        var count, thisx, thisy, neighboursCount;
+        var count, thisx, thisy;
 
         function livecell() {
             thisy = Math.floor(count / spacewidth);
@@ -210,81 +211,13 @@ $(function () {
 
         livecells = [];
         for (count = 0; count < numbercells; count++) {
-            neighboursCount = neighbours[count];
-            if (neighboursCount > 9) {
-                if (liferules[1][neighboursCount - 10]) {
-                    livecell();
-                }
-            } else {
-                if (liferules[0][neighboursCount]) {
-                    livecell();
-                }
+            if (liferules[neighbours[count]]) {
+                livecell();
             }
-            // switch (neighbours[count]) {
-            //     case 0:
-            //         if (liferules[0][0]) { livecell(); }
-            //         break;
-            //     case 1:
-            //         if (liferules[0][1]) { livecell(); }
-            //         break;
-            //     case 2:
-            //         if (liferules[0][2]) { livecell(); }
-            //         break;
-            //     case 3:
-            //         if (liferules[0][3]) { livecell(); }
-            //         break;
-            //     case 4:
-            //         if (liferules[0][4]) { livecell(); }
-            //         break;
-            //     case 5:
-            //         if (liferules[0][5]) { livecell(); }
-            //         break;
-            //     case 6:
-            //         if (liferules[0][6]) { livecell(); }
-            //         break;
-            //     case 7:
-            //         if (liferules[0][7]) { livecell(); }
-            //         break;
-            //     case 8:
-            //         if (liferules[0][8]) { livecell(); }
-            //         break;
-
-            //     case 9:
-            //         break;
-
-            //     case 10:
-            //         if (liferules[1][0]) { livecell(); }
-            //         break;
-            //     case 11:
-            //         if (liferules[1][1]) { livecell(); }
-            //         break;
-            //     case 12:
-            //         if (liferules[1][2]) { livecell(); }
-            //         break;
-            //     case 13:
-            //         if (liferules[1][3]) { livecell(); }
-            //         break;
-            //     case 14:
-            //         if (liferules[1][4]) { livecell(); }
-            //         break;
-            //     case 15:
-            //         if (liferules[1][5]) { livecell(); }
-            //         break;
-            //     case 16:
-            //         if (liferules[1][6]) { livecell(); }
-            //         break;
-            //     case 17:
-            //         if (liferules[1][7]) { livecell(); }
-            //         break;
-            //     case 18:
-            //         if (liferules[1][8]) { livecell(); }
-            //         break;
-            // }
-
         }
         if (keepHistory) history.push(livecells);
         if (history.length > 1000) {
-            console.log('livecells :' + livecells.length);
+            // console.log('livecells :' + livecells.length);
             history = history.slice(-900);
         }
     }
