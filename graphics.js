@@ -2,6 +2,7 @@
 $(function () {
     var canvas = document.getElementById('thetoroid'), // The canvas where life is drawn
         graphcanvas = document.getElementById('thegraph'), // The canvas where the graph is drawn
+        showGraph = true,
         $teller = $('#teller'),
         $cellsAlive = $('#cellsalive'),
         $speed = $('#speed'),
@@ -238,7 +239,9 @@ $(function () {
         evalneighbours();
         fadeall();
         drawcells();
-        drawgraph();
+        if (showGraph) {
+            drawgraph();
+        }
         updatedata();
     }
 
@@ -411,6 +414,7 @@ $(function () {
 
     // Toggle graph on or off
     $('#graphtoggler').click(function () {
+        showGraph = !showGraph;
         $('#thegraph').toggle('slow');
     });
 
