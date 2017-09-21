@@ -2,32 +2,40 @@
 $(function () {
     var canvas = document.getElementById('thetoroid'), // The canvas where life is drawn
         graphcanvas = document.getElementById('thegraph'), // The canvas where the graph is drawn
-        showGraph = true,
+
         $teller = $('#teller'),
         $cellsAlive = $('#cellsalive'),
         $speed = $('#speed'),
-        cellsize = parseInt($('input[name=cellsizer]:checked').val(), 10), // Width and heigth of a cell in pixels
-        gridsize = function () { return parseInt($('input.grid').val(), 10); },
-        spacewidth = (canvas.width / cellsize),
-        spaceheight = (canvas.height / cellsize),
-        numbercells = spacewidth * spaceheight, // Number of available cells
-        gridon = function () { return ($('input.grid:checked').length > 0); },
-        livecells, // Array with x,y coordinates of living cells
-        fillratio = $('.fillratio').val(), // Percentage of available cells that will be set alive initially
-        startnumberlivecells = numbercells * fillratio / 100,
-        yscale = 3 * graphcanvas.height / numbercells, //Ratio to apply values on y-axis
+
         cellsalive, // Number of cells alive
-        neighbours, // Array with neighbours count
-        steps = 0, // Number of iterations / steps done
-        prevSteps = 0,
+        cellsize = parseInt($('input[name=cellsizer]:checked').val(), 10), // Width and heigth of a cell in pixels
+        fillratio = $('.fillratio').val(), // Percentage of available cells that will be set alive initially
+        gogogo = null,
+        history, // Array of arrays with livecells
         interval = 0, // Milliseconds between iterations
         keepHistory = false,
-        history, // Array of arrays with livecells
-        running = false,
         liferules = [],
-        gogogo = null,
+        livecells, // Array with x,y coordinates of living cells
+        neighbours, // Array with neighbours count
+        numbercells = spacewidth * spaceheight, // Number of available cells
+        prevSteps = 0,
+        running = false,
+        showGraph = true,
+        spaceheight = (canvas.height / cellsize),
+        spacewidth = (canvas.width / cellsize),
         speedHandle = null,
-        speed = 0;
+        speed = 0,
+        startnumberlivecells = numbercells * fillratio / 100,
+        steps = 0, // Number of iterations / steps done
+        yscale = 3 * graphcanvas.height / numbercells; //Ratio to apply values on y-axis
+
+    function gridon() {
+        return ($('input.grid:checked').length > 0);
+    }
+
+    function gridsize() {
+        return parseInt($('input.grid').val(), 10);
+    }
 
     // Set some variables
     function setspace() {
@@ -154,6 +162,18 @@ $(function () {
         }
         cellsalive = livecells.length;
     }
+
+    // slow life down
+    $('canvas').on('mouseover', function () {
+        interval = 250;
+        stopStartLife();
+    });
+
+    // full speed ahead
+    $('canvas').on('mouseout', function () {
+        interval = 0;
+        stopStartLife();
+    });
 
     // Fill livecells with your own mouse drawing
     $('#thetoroid').on('click', function (event) {
@@ -290,7 +310,7 @@ $(function () {
     }
 
     // Start life animation
-    function startlife() {
+    function startLife() {
         $('.trails').attr('checked', true);
         if (running === false) {
             setIntervals();
@@ -298,23 +318,29 @@ $(function () {
         running = true;
     }
     $('#startbutton').on('click', function () {
-        startlife();
+        startLife();
     });
     shortcut.add("up", function () {
-        startlife();
+        startLife();
     });
 
     // Show start button again after user clicked stopbutton
-    function stoplife() {
+    function stopLife() {
         clearIntervals();
         running = false;
     }
     $('#stopbutton').on('click', function () {
-        stoplife();
+        stopLife();
     });
     shortcut.add("down", function () {
-        stoplife();
+        stopLife();
     });
+
+    // stop and startlife (with new interval)
+    function stopStartLife() {
+        stopLife();
+        startLife();
+    }
 
     // Restart everything when user clicks restart button
     function restartlife() {
@@ -447,6 +473,7 @@ $(function () {
         var newRules = presets[1];
         setCheckBoxes('#staylife', stayRules);
         setCheckBoxes('#newlife', newRules);
+        $('.trails').attr('checked', false);
         initliferules();
     });
 
