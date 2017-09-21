@@ -117,7 +117,35 @@
                 <input id="staylife8"
                        type="checkbox"
                        name="staylife8"
-                       value="0" /><label>8</label><br /> &lsquo;New&rsquo; rules:
+                       value="0" /><label>8</label>
+                <select id="presets"
+                        name="presets"
+                        placeholder="Presets">
+                    <option value="125/36">2&times;2</option>
+                    <option value="34/34">34 Life</option>
+                    <option value="1358/357">Amoeba</option>
+                    <option value="4567/345">Assimilation</option>
+                    <option value="235678/378">Coagulations</option>
+                    <option value="23/3" selected="selected">Conway&rsquo;s Life</option>
+                    <option value="45678/3">Coral</option>
+                    <option value="34678/3678">Day &amp; Night</option>
+                    <option value="5678/35678">Diamoeba</option>
+                    <option value="012345678/3">Flakes</option>
+                    <option value="1/1">Gnarl</option>
+                    <option value="23/36">High Life</option>
+                    <option value="34678/0123478/2">Inverse Life</option>
+                    <option value="5/345">Long Life</option>
+                    <option value="12345/3">Maze</option>
+                    <option value="1234/3">Mazectric</option>
+                    <option value="245/368">Move</option>
+                    <option value="238/357">Pseudo Life</option>
+                    <option value="1357/1357">Replicator</option>
+                    <option value="/2">Seeds</option>
+                    <option value="/234">Serviettes</option>
+                    <option value="235678/3678">Stains</option>
+                    <option value="2345/45678">Walled Cities</option>
+                </select>
+                <br /> &lsquo;New&rsquo; rules:
                 <input id="newlife0"
                        type="checkbox"
                        name="newlife0"
@@ -181,8 +209,7 @@
 
                         </script>
             </div>
-            <p class="intro">Conway&rsquo;s game of life, who hasn't heard of it :) Well for me it has been a toy and a joy for many years.
-                Here it has become my vehicle te learn javascript and jquery.</p>
+            <p class="intro">Conway&rsquo;s game of life, who hasn't heard of it :) Well for me it has been a toy and a joy for many years. Here it has become my vehicle te learn javascript and jquery.</p>
 
 
             <h2>How to use this lab</h2>
@@ -190,21 +217,19 @@
                 <a href="http://en.wikipedia.org/wiki/Conway's_Game_of_Life"
                    target="_blank">Wikipedia</a> for an explanation of Conway&rsquo;s life.</p>
             <h2>Experiment</h2>
-            <p>One can experiment with the (initial random) fill ratio, follow the population in the graph, step back through
-                the history of interesting figures you might see.</p>
-            <p>Change the cell size with the radio buttons labeled &lsquo;1&rsquo;, &lsquo;2&rsquo;, &lsquo;4&rsquo; and &lsquo;8&rsquo;
-                to zoom in or out. When zooming in, the area will be cropped though.</p>
-            <p>Uncheck &lsquo;Trails&rsquo; to see the raw Conway's life. This will be done automatically when you start navigating
-                in the history.</p>
-            <p>Switch on the &lsquo;life rules&rsquo; and play with them.</p>
-            <h2>Draw your own life cells</h2>
-            <p>To experiment with your own start cells, you can draw them in the &lsquo;life area&rsquo;: hit <span class="key"></span>stop,
-                hit <span class="key"></span>clear, click in the white area at will. When done hit <span class="key"></span>step
-                or start.<br /> It is possible though, to draw new life while it is still running. Click close to static
-                pieces of life and look what happens.</p>
+            <ul>
+                <li>One can experiment with the (initial random) fill ratio, follow the population in the graph, step back through the history of interesting figures you might see.</li>
+                <li>Change the cell size with the radio buttons labeled &lsquo;1&rsquo;, &lsquo;2&rsquo;, &lsquo;4&rsquo; and &lsquo;8&rsquo; to zoom in or out. When zooming in, the area will be cropped though.</li>
+                <li>Uncheck &lsquo;Trails&rsquo; to see the raw Conway's life. This will be done automatically when you start navigating in the history.</li>
+                <li>Switch on the &lsquo;life rules&rsquo; and play with them.</li>
+                <li>A <a href="http://psoup.math.wisc.edu/mcell/rullex_life.html"
+                       target="_blank"
+                       title="Life rule presets from Mirek's Cellebration">nice series of presets</a> for the life rules can be chosen from with the dropdown selector</li>
+                <h2>Draw your own life cells</h2>
+                <li>To experiment with your own start cells, you can draw them in the &lsquo;life area&rsquo;: hit <span class="key"></span>stop, hit <span class="key"></span>clear, click in the white area at will. When done hit <span class="key"></span>step or start.<br /> It is possible though, to draw new life while it is still running. Click close to static pieces of life and look what happens.</li>
+            </ul>
             <h2>Life controls</h2>
-            <p>Life can be controlled with the <span class="key">Start</span>, <span class="key">Stop</span>, <span class="key">Step</span>                and <span class="key">Step back</span> buttons, which are quite self-explanatory.<br /> The following shortcut
-                keys can be used as well:</p>
+            <p>Life can be controlled with the <span class="key">Start</span>, <span class="key">Stop</span>, <span class="key">Step</span> and <span class="key">Step back</span> buttons, which are quite self-explanatory.<br /> The following shortcut keys can be used as well:</p>
             <ul>
                 <li>down - stop</li>
                 <li>up - start</li>
