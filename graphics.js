@@ -2,6 +2,7 @@
 $(function () {
     var canvas = document.getElementById('thetoroid'), // The canvas where life is drawn
         graphcanvas = document.getElementById('thegraph'), // The canvas where the graph is drawn
+        showGraph = true,
         $teller = $('#teller'),
         $cellsAlive = $('#cellsalive'),
         $speed = $('#speed'),
@@ -155,7 +156,7 @@ $(function () {
     }
 
     // Fill livecells with your own mouse drawing
-    $('#thetoroid').click(function (event) {
+    $('#thetoroid').on('click', function (event) {
         mouseX = Math.floor((event.offsetX ? (event.offsetX) : event.pageX - this.offsetLeft) / cellsize);
         mouseY = Math.floor((event.offsetY ? (event.offsetY) : event.pageY - this.offsetTop) / cellsize);
         livecells[livecells.length] = new Celxy(mouseX, mouseY);
@@ -238,7 +239,9 @@ $(function () {
         evalneighbours();
         fadeall();
         drawcells();
-        drawgraph();
+        if (showGraph) {
+            drawgraph();
+        }
         updatedata();
     }
 
@@ -269,7 +272,7 @@ $(function () {
     function steplife() {
         animateShape();
     }
-    $('#stepbutton').click(function () {
+    $('#stepbutton').on('click', function () {
         steplife();
     });
     shortcut.add("right", function () {
@@ -294,7 +297,7 @@ $(function () {
         }
         running = true;
     }
-    $('#startbutton').click(function () {
+    $('#startbutton').on('click', function () {
         startlife();
     });
     shortcut.add("up", function () {
@@ -306,7 +309,7 @@ $(function () {
         clearIntervals();
         running = false;
     }
-    $('#stopbutton').click(function () {
+    $('#stopbutton').on('click', function () {
         stoplife();
     });
     shortcut.add("down", function () {
@@ -328,7 +331,7 @@ $(function () {
         }
         running = true;
     }
-    $('#randombutton').click(function () {
+    $('#randombutton').on('click', function () {
         restartlife();
     });
     shortcut.add("return", function () {
@@ -348,7 +351,7 @@ $(function () {
         //drawspace();
         updatedata();
     }
-    $('#clearbutton').click(function () {
+    $('#clearbutton').on('click', function () {
         clearlife();
     });
     shortcut.add("delete", function () {
@@ -369,7 +372,7 @@ $(function () {
             updatedata();
         }
     }
-    $('#prevbutton').click(function () {
+    $('#prevbutton').on('click', function () {
         back1step();
     });
     shortcut.add("left", function () {
@@ -410,21 +413,40 @@ $(function () {
     });
 
     // Toggle graph on or off
-    $('#graphtoggler').click(function () {
+    $('#graphtoggler').on('click', function () {
+        showGraph = !showGraph;
         $('#thegraph').toggle('slow');
     });
 
     // Toggle liferules checkboxes on or off
-    $('#rulestoggler').click(function () {
+    $('#rulestoggler').on('click', function () {
         $('#liferules').toggle('slow');
     });
 
     // Toggle text on or off
-    $('#texttoggler').click(function () {
+    $('#texttoggler').on('click', function () {
         $('#story').toggle('slow');
     });
 
-    $('#liferules input').click(function () {
+    $('#liferules [id^=staylife]').on('click', function () {
+        initliferules();
+    });
+
+    $('#presets').on('change', function () {
+        function setCheckBoxes(type, numbers) {
+            for (var i = 0; i < 8; i++) {
+                if (numbers.indexOf(i) > -1) {
+                    $(type + i).prop('checked', true);
+                } else {
+                    $(type + i).prop('checked', false);
+                }
+            }
+        }
+        var presets = $(this).val().split('/');
+        var stayRules = presets[0];
+        var newRules = presets[1];
+        setCheckBoxes('#staylife', stayRules);
+        setCheckBoxes('#newlife', newRules);
         initliferules();
     });
 
