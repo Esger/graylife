@@ -60,7 +60,7 @@ input, label {
     font : 12px bold 'trebuchet MS';
 }
 
-#liferules input, #liferules select, .cellsizer, .history, .trails {
+#liferules input, #liferules select, .cellsizer, .history, .hoverSlow, .trails {
     margin: 0 3px 0 10px;
 }
 
