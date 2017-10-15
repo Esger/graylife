@@ -14,6 +14,7 @@ $(function () {
         history, // Array of arrays with livecells
         interval = 0, // Milliseconds between iterations
         keepHistory = false,
+        hoverSlow = false,
         liferules = [],
         livecells, // Array with x,y coordinates of living cells
         neighbours, // Array with neighbours count
@@ -165,14 +166,18 @@ $(function () {
 
     // slow life down
     $('canvas').on('mouseover', function () {
-        interval = 250;
-        stopStartLife();
+        if (hoverSlow) {
+            interval = 250;
+            stopStartLife();
+        }
     });
 
     // full speed ahead
     $('canvas').on('mouseout', function () {
-        interval = 0;
-        stopStartLife();
+        if (hoverSlow) {
+            interval = 0;
+            stopStartLife();
+        }
     });
 
     // Fill livecells with your own mouse drawing
@@ -430,6 +435,11 @@ $(function () {
         } else {
             $('.trails').attr('checked', true);
         }
+    });
+
+    // Toggle slow on hover on or off
+    $('.hoverSlow').on('click', function () {
+        hoverSlow = !hoverSlow;
     });
 
     // Toggle history on or off
